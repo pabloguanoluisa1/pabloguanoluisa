@@ -1,0 +1,88 @@
+.container{
+    margin-left: 5rem;
+    margin-top: 2rem;
+    font-weight: bolder;
+}
+
+.espacio{
+    position: sticky;
+    position:-webkit-sticky;
+    display: flex;
+    flex: 1 1 auto;
+}
+
+.nuePoke{
+ background-color: blue;
+ color: white;
+ float: right;
+ margin-right: 5rem;
+}
+
+.buscar{
+    margin-left: 5rem;
+}
+
+.margen{
+    margin-left: 210em;
+}
+
+.pokeIma {
+    width: 65px;
+    height: 65px;
+}
+
+.acciones{
+    background-color: white;
+    color: blue;
+}
+
+th{
+    width: 21%;
+    text-align: center;
+
+}
+
+table, td , th{
+    border: 1px solid rgb(214, 214, 214);
+}
+
+.thcenter{
+    text-align-last: center;
+}
+
+.tdcenter{
+    text-align-last: center;
+}
+
+.titulo{
+    margin-top: 1rem;
+}
+
+.divCentrado{
+    text-align: center;
+}
+
+.divBorder{
+    border: 2px solid rgb(214, 214, 214);
+    margin-left: 5rem;
+    margin-right: 5rem;
+}
+
+.flexbox-container {
+	display: -ms-flex;
+	display: -webkit-flex;
+	display: flex;
+}
+
+.flexbox-container > div {
+	width: 50%;
+	padding: 10px;
+}
+
+.span1{
+    margin-left: 5rem;
+}
+
+.cancelar{
+    margin-left: 2rem;
+}

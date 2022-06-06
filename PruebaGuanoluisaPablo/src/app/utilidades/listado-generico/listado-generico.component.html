@@ -1,0 +1,17 @@
+<!--Componente para listar cualquier tipo de elementos.-->
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+
+
+
+<div *ngIf="!listado">
+    <span #cargando>
+        <ng-content select="[cargando]"></ng-content>
+    </span>
+    <span *ngIf="!cargando.innerHTML.trim()">
+    </span>
+</div>
+
+<ng-container *ngIf="listado && listado.length > 0">
+    <ng-content select="[contenido]"></ng-content>
+</ng-container>

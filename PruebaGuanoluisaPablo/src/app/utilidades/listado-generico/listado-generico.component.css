@@ -1,0 +1,38 @@
+.modal { 
+    display: block; 
+} 
+.modal-body:before, 
+.modal-body:after 
+{ 
+    display: table; 
+    content: " "; } 
+
+.modal-header:before, 
+.modal-header:after 
+{ 
+    display: table;
+    content: " "; 
+    background-color: black;
+}
+
+.divH3{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+
+.w3-modal-content{
+    width: 20rem;
+    height: 12rem;
+}
+
+.head{
+    background-color: black;
+    color: red;
+}
+
+
+.h2rem{
+    margin-left: 7rem;
+}

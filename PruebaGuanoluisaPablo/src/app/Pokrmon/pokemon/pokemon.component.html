@@ -1,0 +1,228 @@
+<div class="container">
+    <h3>Listado de Pokemon</h3>
+</div>
+<div>
+    <!--El filtro funciona con todas las columnas de la tabla-->
+    <mat-form-field  class="buscar" appearance="outline">
+        <mat-label>Buscar*</mat-label>
+        <input  [(ngModel)]="filterpost" name="filterpost" matInput autocomplete="off" />
+        <mat-icon matPrefix>search</mat-icon>
+    </mat-form-field>
+
+    <button mat-flat-button class="nuePoke" 
+        (click)= "nuevoPokemon()">
+        <mat-icon>add</mat-icon>
+            Nuevo
+        </button>
+</div>
+
+<!--Muestra todos los pokemon encontrados dinamicamente.-->
+<div>
+    <app-listado-generico [listado]="pokemons">
+        <ng-container contenido>
+            <table #table mat-table [dataSource]="pokemons | filter: filterpost | paginate: {itemsPerPage:10, currentPage: page}" class="tabla-indice">
+                
+    
+                <ng-container matColumnDef="Nombre">
+                    <th class="thcenter" mat-header-cell *matHeaderCellDef>Nombre</th>
+                    <td mat-cell *matCellDef="let element">{{element.name}}</td>
+                </ng-container>
+    
+                <ng-container matColumnDef="Imagen">
+                    <th class="thcenter"  mat-header-cell *matHeaderCellDef>Imagen</th>
+                    <td class="tdcenter" mat-cell *matCellDef="let element">
+                        <img class="pokeIma" src="{{element.image}}" />     
+                    </td>
+                </ng-container>
+    
+                <ng-container matColumnDef="Ataque">
+                    <th class="thcenter"  mat-header-cell *matHeaderCellDef>Rol</th>
+                    <td mat-cell *matCellDef="let element">&nbsp;&nbsp;&nbsp;{{element.attack}}</td>
+                </ng-container>
+    
+                <ng-container matColumnDef="Defensa" >
+                    <th class="thcenter"  mat-header-cell *matHeaderCellDef>Estado </th>
+                    <td class="tdjustificar" mat-cell *matCellDef="let element">&nbsp;&nbsp;&nbsp;{{element.defense}}</td>
+                </ng-container>
+    
+                <ng-container matColumnDef="Acciones">
+                    <th class="thcenter"  mat-header-cell *matHeaderCellDef>Acciones</th>
+                    <td class="tdcenter" mat-cell *matCellDef="let element">
+                           
+                        <button  class="acciones"
+                        mat-flat-button  
+                        (click)="editarPokemon(element)"
+                        ><mat-icon>border_color</mat-icon></button>
+                        
+                        <button class="acciones"
+                        mat-flat-button 
+                        (click)="eliminarPokemon(element.id)"
+                        ><mat-icon>delete</mat-icon></button>
+                    </td>
+                </ng-container>
+    
+                <tr mat-header-row *matHeaderRowDef="columnasAMostrar"></tr>
+                <tr mat-row *matRowDef="let row; columns: columnasAMostrar"></tr>
+    
+            </table>
+    
+            <pagination-controls class="margen" (pageChange)="page = $event"
+            previousLabel="Anterior"
+            nextLabel="Siguiente"> 
+            </pagination-controls>
+    
+        </ng-container>
+    </app-listado-generico>
+</div>
+<!--Div para registrar nuevo pokemon, este se activa cuando precionan el boton nuevo-->
+<div class="divBorder" *ngIf="banderaNuevo == 1">
+    <h4 class="titulo divCentrado">Nuevo Pokemon</h4>
+    <div class="flexbox-container">
+         <div>
+            <span class="span1">
+                Nombre:
+            </span>
+            <mat-form-field  class="buscar" appearance="outline">
+                <mat-label></mat-label>
+                <input  [(ngModel)]="nombre" name="nombre" matInput autocomplete="off" />
+            </mat-form-field>
+         </div>
+         <div>
+            <span class="span1">
+                Ataque:
+            </span>
+            <span class="span1">
+                0&nbsp;&nbsp;&nbsp;
+            </span>
+            <mat-slider color="primary"
+                [max]= 100 
+                [min]= 0
+                [step]="5"
+                [(ngModel)]="ataque">
+            </mat-slider>
+            <span>
+                &nbsp;&nbsp;&nbsp;100
+            </span>
+         </div>
+    </div>
+    <div class="flexbox-container">
+
+        <div>
+            <span class="span1">
+                Imagen:
+            </span>
+            <mat-form-field  class="buscar" appearance="outline">
+                <mat-label>Url</mat-label>
+                <input  [(ngModel)]="imagen" name="imagen" matInput autocomplete="off" />
+            </mat-form-field>
+        </div>
+
+        <div>
+            <span class="span1">
+                Defensa:
+            </span>
+            <span class="span1">
+                0&nbsp;&nbsp;&nbsp;
+            </span>
+            <mat-slider color="primary"
+                [max]= 100 
+                [min]= 0
+                [step]="5"
+                [(ngModel)]="defensa">
+            </mat-slider>
+            <span>
+                &nbsp;&nbsp;&nbsp;100
+            </span>
+        </div>
+    </div>
+    <div class="divCentrado">
+        <button mat-flat-button color="primary"
+            (click)= "guardarNuevo()">
+            <mat-icon>save</mat-icon>
+                Guardar
+        </button>
+        <button mat-flat-button color="primary" class="cancelar"
+            (click)= "cancelar()">
+            <mat-icon>close</mat-icon>
+                Cancelar
+        </button>
+    </div>
+    <br>
+</div>
+<!--Div para la edicion de pokemon, este se activa cuando precionan el boton de editar en las acciones de la tabla-->
+<div class="divBorder" *ngIf="banderaEditar == 1">
+    <h4 class="titulo divCentrado">Editar Pokemon</h4>
+    <div class="flexbox-container">
+         <div>
+            <span class="span1">
+                Nombre:
+            </span>
+            <mat-form-field  class="buscar" appearance="outline">
+                <mat-label></mat-label>
+                <input  [(ngModel)]="nombreEditar" name="nombreEditar" matInput autocomplete="off" />
+            </mat-form-field>
+         </div>
+         <div>
+            <span class="span1">
+                Ataque:
+            </span>
+            <span class="span1">
+                0&nbsp;&nbsp;&nbsp;
+            </span>
+            <mat-slider color="primary"
+                [max]= 100 
+                [min]= 0
+                [step]="5"
+                [(ngModel)]="ataqueEditar">
+            </mat-slider>
+            <span>
+                &nbsp;&nbsp;&nbsp;100
+            </span>
+         </div>
+    </div>
+    <div class="flexbox-container">
+
+        <div>
+            <span class="span1">
+                Imagen:
+            </span>
+            <mat-form-field  class="buscar" appearance="outline">
+                <mat-label>Url</mat-label>
+                <input  [(ngModel)]="imagenEditar" name="imagenEditar" matInput autocomplete="off" />
+            </mat-form-field>
+        </div>
+
+        <div>
+            <span class="span1">
+                Defensa:
+            </span>
+            <span class="span1">
+                0&nbsp;&nbsp;&nbsp;
+            </span>
+            <mat-slider color="primary"
+                [max]= 100 
+                [min]= 0
+                [step]="5"
+                [(ngModel)]="defensaEditar">
+            </mat-slider>
+            <span>
+                &nbsp;&nbsp;&nbsp;100
+            </span>
+        </div>
+    </div>
+    <div class="divCentrado">
+        <button mat-flat-button color="primary"
+            (click)= "guardarEdicionPokemon()">
+            <mat-icon>save</mat-icon>
+                Guardar
+        </button>
+        <button mat-flat-button color="primary" class="cancelar"
+            (click)= "cancelar()">
+            <mat-icon>close</mat-icon>
+                Cancelar
+        </button>
+    </div>
+    <br>
+</div>
+<br>
+<br>
